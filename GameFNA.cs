@@ -47,8 +47,6 @@ internal class GameFNA : Core
     {
         base.Initialize();
 
-        _smiley = new Actor(Content, "SpriteData/SmileyWalk.xml", new Vector2(400, 300));
-
         MakeInputMap();
     }
 
@@ -62,6 +60,8 @@ internal class GameFNA : Core
 
         _skyTexture = Content.Load<Texture2D>("Textures/Sky");
         _tileset = AnimatedSprite.FromFile(Content, "SpriteData/TileSet.xml");
+
+        _smiley = new Actor(Content, "SpriteData/SmileyWalk.xml", new Vector2(400, 300));
     }
 
     protected override void UnloadContent()
@@ -125,7 +125,7 @@ internal class GameFNA : Core
 
             if (gamePadOne.LeftThumbStick != Vector2.Zero)
             {
-                _smiley.Position += new Vector2(gamePadOne.LeftThumbStick.X, gamePadOne.LeftThumbStick.Y) * _smileySpeed * dt;
+                _smiley.Position += new Vector2(gamePadOne.LeftThumbStick.X, -gamePadOne.LeftThumbStick.Y) * _smileySpeed * dt;
             }
             else
             {
