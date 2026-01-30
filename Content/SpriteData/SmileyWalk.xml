@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AnimatedSprite>
+    <Texture>Textures/SmileyWalk</Texture>
+    <Columns>4</Columns>
+    <Rows>4</Rows>
+    <AnimationSpeed>3.0</AnimationSpeed>
+</AnimatedSprite>
