@@ -38,6 +38,8 @@ internal class GameFNA : Core
     private string _controlText = "Keyboard/GamePad Control";
     private string _inputActionsText = "WASD/Arrow Keys/DPad/LeftStick - Move\nSpace/A (GamePad) - Fire\nX (GamePad) - Test Vibration";
 
+    private float _framerate;
+
     private GameFNA() : base("Untitled FNA Game", 800, 480, false)
     {
         
@@ -72,7 +74,8 @@ internal class GameFNA : Core
 
     protected override void Update(GameTime gameTime)
     {
-        float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        float dt = GetDeltaTime(gameTime);
+        _framerate = 1 / dt;
 
         // Play Linkin Park
         if (MediaPlayer.State != MediaState.Playing)
@@ -151,6 +154,8 @@ internal class GameFNA : Core
         _smiley.X = MathHelper.Clamp(_smiley.X, 0, 800 - 64);
         _smiley.Y = MathHelper.Clamp(_smiley.Y, 0, 480 - 64);
 
+        Console.WriteLine(_framerate);
+
         base.Update(gameTime);
     }
 
@@ -164,8 +169,9 @@ internal class GameFNA : Core
 
         SpriteBatch.DrawString(_fontMedium, _controlText, new Vector2(12, 360), Color.Black);
         SpriteBatch.DrawString(_fontSmall, _inputActionsText, new Vector2(12, 400), Color.Black);
+        SpriteBatch.DrawString(_fontSmall, _framerate.ToString("0") + " FPS", new Vector2(12, 12), Color.Black);
 
-        _tileset.Draw(SpriteBatch, new Vector2(32, 32), Color.White);
+        _tileset.Draw(SpriteBatch, new Vector2(64, 64), Color.White);
         _smiley.Draw(SpriteBatch);
 
         SpriteBatch.End();

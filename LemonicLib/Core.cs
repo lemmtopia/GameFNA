@@ -36,6 +36,7 @@ public class Core : Game
         Graphics = new GraphicsDeviceManager(this);
         Graphics.PreferredBackBufferWidth = width;
         Graphics.PreferredBackBufferHeight = height;
+        Graphics.SynchronizeWithVerticalRetrace = false;
         Graphics.IsFullScreen = isFullscreen;
         Graphics.ApplyChanges();
 
@@ -78,5 +79,10 @@ public class Core : Game
         }
 
         base.Update(gameTime);
+    }
+
+    public float GetDeltaTime(GameTime gameTime)
+    {
+        return (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
 }
