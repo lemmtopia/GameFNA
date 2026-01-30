@@ -11,7 +11,7 @@ using LemonicLib.Input;
 
 namespace GameFNA;
 
-class GameFNA : Core
+internal class GameFNA : Core
 {
     [STAThread]
     static void Main(string[] args)
@@ -26,12 +26,10 @@ class GameFNA : Core
     private SpriteFont _fontSmall;
 
     private Texture2D _skyTexture;
-    private AnimatedSprite _smileyWalk;
     private AnimatedSprite _tileset;
 
-    private float _smileyX;
-    private float _smileyY;
     private float _smileySpeed = 240f;
+    private Actor _smiley;
 
     private Song _linkinParkInTheEnd;
     private SoundEffect _soundEffect;
@@ -49,8 +47,7 @@ class GameFNA : Core
     {
         base.Initialize();
 
-        _smileyX = 400;
-        _smileyY = 300;
+        _smiley = new Actor(Content, "SpriteData/SmileyWalk.xml", new Vector2(400, 300));
 
         MakeInputMap();
     }
@@ -64,14 +61,13 @@ class GameFNA : Core
         _soundEffect = Content.Load<SoundEffect>("Audio/tx0_fire1");
 
         _skyTexture = Content.Load<Texture2D>("Textures/Sky");
-        _smileyWalk = AnimatedSprite.FromFile(Content, "SpriteData/SmileyWalk.xml");
         _tileset = AnimatedSprite.FromFile(Content, "SpriteData/TileSet.xml");
     }
 
     protected override void UnloadContent()
     {
         _skyTexture.Dispose();
-        _smileyWalk.Dispose();
+        _smiley.Dispose();
     }
 
     protected override void Update(GameTime gameTime)
@@ -86,7 +82,7 @@ class GameFNA : Core
         }
 
         _tileset.Update(dt);
-        _smileyWalk.Update(dt);
+        _smiley.Update(dt);
 
         GamePadInfo gamePadOne = Input.GamePads[(int)PlayerIndex.One];
 
@@ -108,8 +104,7 @@ class GameFNA : Core
 
         if (_mouseControl)
         {
-            _smileyX = Input.Mouse.X;
-            _smileyY = Input.Mouse.Y;
+            _smiley.Position = new Vector2(Input.Mouse.X, Input.Mouse.Y);
 
             if (Input.IsActionPressed(PlayerIndex.One, "MouseFire"))
             {
@@ -130,32 +125,31 @@ class GameFNA : Core
 
             if (gamePadOne.LeftThumbStick != Vector2.Zero)
             {
-                _smileyX += gamePadOne.LeftThumbStick.X * _smileySpeed * dt;
-                _smileyY -= gamePadOne.LeftThumbStick.Y * _smileySpeed * dt;
+                _smiley.Position += new Vector2(gamePadOne.LeftThumbStick.X, gamePadOne.LeftThumbStick.Y) * _smileySpeed * dt;
             }
             else
             {
                 if (Input.IsActionDown(PlayerIndex.One, "Left"))
                 {
-                    _smileyX -= _smileySpeed * dt;
+                    _smiley.X -= _smileySpeed * dt;
                 }
                 if (Input.IsActionDown(PlayerIndex.One, "Right"))
                 {
-                    _smileyX += _smileySpeed * dt;
+                    _smiley.X += _smileySpeed * dt;
                 }
                 if (Input.IsActionDown(PlayerIndex.One, "Up"))
                 {
-                    _smileyY -= _smileySpeed * dt;
+                    _smiley.Y -= _smileySpeed * dt;
                 }
                 if (Input.IsActionDown(PlayerIndex.One, "Down"))
                 {
-                    _smileyY += _smileySpeed * dt;
+                    _smiley.Y += _smileySpeed * dt;
                 }
             }
         }
 
-        _smileyX = MathHelper.Clamp(_smileyX, 0, 800 - 64);
-        _smileyY = MathHelper.Clamp(_smileyY, 0, 480 - 64);
+        _smiley.X = MathHelper.Clamp(_smiley.X, 0, 800 - 64);
+        _smiley.Y = MathHelper.Clamp(_smiley.Y, 0, 480 - 64);
 
         base.Update(gameTime);
     }
@@ -171,8 +165,8 @@ class GameFNA : Core
         SpriteBatch.DrawString(_fontMedium, _controlText, new Vector2(12, 360), Color.Black);
         SpriteBatch.DrawString(_fontSmall, _inputActionsText, new Vector2(12, 400), Color.Black);
 
-        _tileset.Draw(SpriteBatch, new Rectangle(32, 32, 32, 32), Color.White);
-        _smileyWalk.Draw(SpriteBatch, new Rectangle((int)_smileyX, (int)_smileyY, 64, 64), Color.White);
+        _tileset.Draw(SpriteBatch, new Vector2(32, 32), Color.White);
+        _smiley.Draw(SpriteBatch);
 
         SpriteBatch.End();
     }

@@ -55,7 +55,7 @@ public class AnimatedSprite : Sprite
         }
     }
 
-    public override void Draw(SpriteBatch spriteBatch, Rectangle destination, Color color)
+    public override void Draw(SpriteBatch spriteBatch, Vector2 position, Color color)
     {
         int frameW = Width / Columns;
         int frameH = Height / Rows;
@@ -65,7 +65,20 @@ public class AnimatedSprite : Sprite
 
         Rectangle sourceRect = new Rectangle(column * frameW, row * frameH, frameW, frameH);
 
-        spriteBatch.Draw(Texture, destination, sourceRect, color);
+        spriteBatch.Draw(Texture, position, sourceRect, color);
+    }
+
+    public override void Draw(SpriteBatch spriteBatch, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects spriteEffects, int layerDepth)
+    {
+        int frameW = Width / Columns;
+        int frameH = Height / Rows;
+
+        int column = _currentFrame % Columns;
+        int row = _currentFrame / Columns;
+
+        Rectangle sourceRect = new Rectangle(column * frameW, row * frameH, frameW, frameH);
+
+        spriteBatch.Draw(Texture, position, sourceRect, color, rotation, origin, scale, spriteEffects, layerDepth);
     }
 
     public static AnimatedSprite FromFile(ContentManager content, string fileName)

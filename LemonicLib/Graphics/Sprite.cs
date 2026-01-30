@@ -21,9 +21,18 @@ public class Sprite
         Texture = texture;
     }
 
-    public virtual void Draw(SpriteBatch spriteBatch, Rectangle destination, Color color)
+    public virtual void Draw(SpriteBatch spriteBatch, Vector2 position, Color color)
     {
-        spriteBatch.Draw(Texture, destination, new Rectangle(0, 0, Width, Height), color);
+        Rectangle sourceRect = new Rectangle(0, 0, Width, Height);
+
+        spriteBatch.Draw(Texture, position, sourceRect, color);
+    }
+
+    public virtual void Draw(SpriteBatch spriteBatch, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects spriteEffects, int layerDepth)
+    {
+        Rectangle sourceRect = new Rectangle(0, 0, Width, Height);
+
+        spriteBatch.Draw(Texture, position, sourceRect, color, rotation, origin, scale, spriteEffects, layerDepth);
     }
 
     public void Dispose()

@@ -18,8 +18,13 @@ public class SpriteRegion : Sprite
         Region = region;
     }
 
-    public override void Draw(SpriteBatch spriteBatch, Rectangle destination, Color color)
+    public override void Draw(SpriteBatch spriteBatch, Vector2 position, Color color)
     {
-        spriteBatch.Draw(Texture, destination, Region, color);
+        spriteBatch.Draw(Texture, position, Region, color);
+    }
+
+    public override void Draw(SpriteBatch spriteBatch, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects spriteEffects, int layerDepth)
+    {
+        spriteBatch.Draw(Texture, position, Region, color, rotation, origin, scale, spriteEffects, layerDepth);
     }
 }
