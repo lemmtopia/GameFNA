@@ -6,7 +6,7 @@ using LemonicLib;
 using LemonicLib.Graphics;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameFNA;
+namespace LemonicLib.Gameplay;
 
 internal class Actor
 {

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Media;
 using LemonicLib;
 using LemonicLib.Graphics;
 using LemonicLib.Input;
+using LemonicLib.Gameplay;
 
 namespace GameFNA;
 
