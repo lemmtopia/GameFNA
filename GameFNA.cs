@@ -154,8 +154,6 @@ internal class GameFNA : Core
         _smiley.X = MathHelper.Clamp(_smiley.X, 0, 800 - 64);
         _smiley.Y = MathHelper.Clamp(_smiley.Y, 0, 480 - 64);
 
-        Console.WriteLine(_framerate);
-
         base.Update(gameTime);
     }
 
